@@ -569,13 +569,13 @@ public class MainUi : IDisposable
             configInterface.cfg.DeepDungeonOptions.PassageOption,
             "轉移石塔",
             displayOrigination: DisplayOrigination.DeepDungeon,
-            description: "This also contains the carrot? and some mixed spots in OC"
+            description: "也包含蜃景幻界中的部分混合物件。"
         );
         DrawSettingsOverview(
             configInterface.cfg.DeepDungeonOptions.ActivatableOption,
             "可啟動物件",
             displayOrigination: DisplayOrigination.DeepDungeon,
-            description: "Candalabras, and (eventually) spots in OC/Bozja/Eureka(?)"
+            description: "包含燭台，以及蜃景幻界、南方博茲雅戰線與優雷卡中的部分可啟動地點。"
         );
     }
 
@@ -625,15 +625,15 @@ public class MainUi : IDisposable
         var id = "##miscsettings";
         ImGui.BeginChild($"{id}-child", new Vector2(0, 0));
 
-        if (ImGui.CollapsingHeader($"Hitbox Options{id}"))
+        if (ImGui.CollapsingHeader($"碰撞箱選項{id}"))
         {
             shouldSave |= ImGui.Checkbox(
-                $"Show Hitbox{id}-hitbox",
+                $"顯示碰撞箱{id}-hitbox",
                 ref configInterface.cfg.HitboxOptions.HitboxEnabled
             );
 
             shouldSave |= ImGui.DragFloat(
-                $"Thickness{id}",
+                $"線條粗細{id}",
                 ref configInterface.cfg.HitboxOptions.Thickness,
                 0.1f,
                 0.1f,
@@ -641,7 +641,7 @@ public class MainUi : IDisposable
             );
 
             shouldSave |= ImGui.Checkbox(
-                $"Override Mob Color{id}-hitbox",
+                $"覆寫目標顏色{id}-hitbox",
                 ref configInterface.cfg.HitboxOptions.OverrideMobColor
             );
 
@@ -652,7 +652,7 @@ public class MainUi : IDisposable
                 );
                 if (
                     ImGui.ColorEdit4(
-                        $"Color{id}-hitbox-color",
+                        $"顏色{id}-hitbox-color",
                         ref hitboxColor,
                         ImGuiColorEditFlags.NoInputs
                     )
@@ -666,14 +666,14 @@ public class MainUi : IDisposable
             }
 
             shouldSave |= ImGui.Checkbox(
-                $"Draw Inside Color{id}-hitbox",
+                $"填滿碰撞箱內部{id}-hitbox",
                 ref configInterface.cfg.HitboxOptions.DrawInsideCircle
             );
 
             if (configInterface.cfg.HitboxOptions.DrawInsideCircle)
             {
                 shouldSave |= ImGui.Checkbox(
-                    "Use Different Inside Color",
+                    "使用不同的內部顏色",
                     ref configInterface.cfg.HitboxOptions.UseDifferentInsideCircleColor
                 );
 
@@ -684,7 +684,7 @@ public class MainUi : IDisposable
                         / byte.MaxValue;
                     if (
                         ImGui.DragFloat(
-                            $"Inside Circle Opacity{id}",
+                            $"內部圓形透明度{id}",
                             ref circleOpacity,
                             0.005f,
                             0,
@@ -701,28 +701,28 @@ public class MainUi : IDisposable
                 if (configInterface.cfg.HitboxOptions.UseDifferentInsideCircleColor)
                 {
                     shouldSave |= UiHelpers.Vector4ColorSelector(
-                        $"Inside Circle Color{id}-hitbox",
+                        $"內部圓形顏色{id}-hitbox",
                         ref configInterface.cfg.HitboxOptions.InsideCircleColor
                     );
                 }
             }
         }
 
-        if (ImGui.CollapsingHeader("Aggro Radius Options"))
+        if (ImGui.CollapsingHeader("敵意偵測半徑選項"))
         {
             DrawAggroCircleSettings();
         }
 
-        if (ImGui.CollapsingHeader("Off Screen Objects Settings"))
+        if (ImGui.CollapsingHeader("畫面外目標設定"))
         {
             shouldSave |= ImGui.Checkbox(
-                "Show Offscreen Objects",
+                "顯示畫面外目標",
                 ref configInterface.cfg.ShowOffScreen
             );
-            UiHelpers.HoverTooltip("Show an arrow to the offscreen enemies.");
+            UiHelpers.HoverTooltip("以箭頭顯示位於畫面外的敵人。");
 
             shouldSave |= ImGui.DragFloat(
-                $"Distance From Edge{id}",
+                $"與畫面邊緣的距離{id}",
                 ref configInterface.cfg.OffScreenObjectsOptions.DistanceFromEdge,
                 0.2f,
                 2f,
@@ -730,7 +730,7 @@ public class MainUi : IDisposable
             );
 
             shouldSave |= ImGui.DragFloat(
-                $"Size{id}",
+                $"大小{id}",
                 ref configInterface.cfg.OffScreenObjectsOptions.Size,
                 0.1f,
                 2f,
@@ -738,7 +738,7 @@ public class MainUi : IDisposable
             );
 
             shouldSave |= ImGui.DragFloat(
-                $"Thickness{id}",
+                $"線條粗細{id}",
                 ref configInterface.cfg.OffScreenObjectsOptions.Thickness,
                 0.1f,
                 0.4f,
@@ -746,24 +746,24 @@ public class MainUi : IDisposable
             );
         }
 
-        if (ImGui.CollapsingHeader("Font Settings"))
+        if (ImGui.CollapsingHeader("字型設定"))
         {
             shouldSave |= DrawFontOptions();
         }
 
-        if (ImGui.CollapsingHeader("Level-Based Rendering"))
+        if (ImGui.CollapsingHeader("依等級顯示"))
         {
             var levelRenderingSettings = configInterface.cfg.LevelRendering;
             shouldSave |= UiHelpers.DrawCheckbox(
-                "Enabled",
+                "啟用",
                 ref levelRenderingSettings.LevelRenderingEnabled,
-                "Enable Relative Level-Based Rendering"
+                "依相對等級篩選顯示目標。"
             );
             if (levelRenderingSettings.LevelRenderingEnabled)
             {
                 shouldSave |= UiHelpers.DrawIntWithResetSlider(
                     ref levelRenderingSettings.RelativeLevelsBelow,
-                    "Relative Level To Render",
+                    "顯示的相對等級",
                     "level-based-rel-level",
                     1,
                     89,
@@ -771,19 +771,19 @@ public class MainUi : IDisposable
                 );
                 DrawSettingsOverview(
                     levelRenderingSettings.LevelRenderEspOption,
-                    "Level-Based Enemies",
+                    "符合等級的敵人",
                     "",
                     MobType.Character
                 );
             }
         }
 
-        if (ImGui.CollapsingHeader("EXPERIMENTAL Mob Timers"))
+        if (ImGui.CollapsingHeader("實驗性目標計時器"))
         {
             shouldSave |= UiHelpers.DrawCheckbox(
-                "Mob Timers",
+                "目標計時器",
                 ref configInterface.cfg.EXPERIMENTALEnableMobTimerTracking,
-                "Enable Mob Timer Tracking in deep dungeons and eureka"
+                "在深層迷宮與優雷卡追蹤目標計時。"
             );
         }
 
@@ -799,15 +799,15 @@ public class MainUi : IDisposable
         var tag = "aggroradiusoptions";
 
         shouldSave |= UiHelpers.DrawCheckbox(
-            $"Aggro Circle##{tag}-settings",
+            $"敵意偵測圓##{tag}-settings",
             ref configInterface.cfg.AggroRadiusOptions.ShowAggroCircle,
-            "Draws aggro circle."
+            "繪製敵意偵測圓。"
         );
 
         shouldSave |= UiHelpers.DrawCheckbox(
-            $"Enable Max Distance For Aggro Radius##{tag}-max-dist",
+            $"限制敵意偵測半徑的最大顯示距離##{tag}-max-dist",
             ref configInterface.cfg.AggroRadiusOptions.MaxDistanceCapBool,
-            "Sets a max distance for aggro circles"
+            "設定敵意偵測圓的最大顯示距離。"
         );
         shouldSave |= UiHelpers.DrawFloatWithResetSlider(
             ref configInterface.cfg.AggroRadiusOptions.MaxDistance,
@@ -820,43 +820,43 @@ public class MainUi : IDisposable
         );
 
         shouldSave |= UiHelpers.DrawCheckbox(
-            $"Aggro Circle In Combat##{tag}-settings",
+            $"戰鬥中顯示敵意偵測圓##{tag}-settings",
             ref configInterface.cfg.AggroRadiusOptions.ShowAggroCircleInCombat,
-            "If enabled, always show aggro circle.\nIf disabled, only show aggro circle when enemy is not engaged in combat."
+            "啟用時一律顯示敵意偵測圓；停用時只在敵人尚未進入戰鬥時顯示。"
         );
-        UiHelpers.DrawSeperator("Sight Aggro Settings:", ConfigConstants.White);
+        UiHelpers.DrawSeperator("視覺偵測設定：", ConfigConstants.White);
         shouldSave |= UiHelpers.Vector4ColorSelector(
-            $"Front##{tag}",
+            $"正面##{tag}",
             ref configInterface.cfg.AggroRadiusOptions.FrontColor
         );
         ImGui.SameLine();
         shouldSave |= UiHelpers.Vector4ColorSelector(
-            $"Rear##{tag}",
+            $"背面##{tag}",
             ref configInterface.cfg.AggroRadiusOptions.RearColor
         );
 
         shouldSave |= UiHelpers.Vector4ColorSelector(
-            $"Left##{tag}",
+            $"左側##{tag}",
             ref configInterface.cfg.AggroRadiusOptions.LeftSideColor
         );
         ImGui.SameLine();
         shouldSave |= UiHelpers.Vector4ColorSelector(
-            $"Right##{tag}",
+            $"右側##{tag}",
             ref configInterface.cfg.AggroRadiusOptions.RightSideColor
         );
         shouldSave |= UiHelpers.Vector4ColorSelector(
-            $"Frontal Cone##{tag}",
+            $"正面扇形##{tag}",
             ref configInterface.cfg.AggroRadiusOptions.FrontConeColor
         );
-        UiHelpers.DrawSeperator("Sound Aggro Settings:", ConfigConstants.White);
+        UiHelpers.DrawSeperator("聲音偵測設定：", ConfigConstants.White);
         shouldSave |= UiHelpers.Vector4ColorSelector(
-            $"Sound##{tag}",
+            $"聲音##{tag}",
             ref configInterface.cfg.AggroRadiusOptions.SoundAggroColor
         );
 
-        UiHelpers.DrawSeperator("Proximity Aggro Settings:", ConfigConstants.White);
+        UiHelpers.DrawSeperator("接近偵測設定：", ConfigConstants.White);
         shouldSave |= UiHelpers.Vector4ColorSelector(
-            $"Proximity##{tag}",
+            $"接近##{tag}",
             ref configInterface.cfg.AggroRadiusOptions.ProximityAggroColor
         );
 
@@ -869,29 +869,29 @@ public class MainUi : IDisposable
         bool shouldSave = false;
         ImGui.BeginChild($"##visiblitygeneralsettings-radar-tabs-child", new Vector2(0, 0));
 
-        UiHelpers.DrawSeperator("Non-Enemy Npcs", ConfigConstants.Red);
-        DrawSettingsOverview(configInterface.cfg.CompanionOption, "Companions");
-        DrawSettingsOverview(configInterface.cfg.EventNpcOption, "Event NPCs");
-        DrawSettingsOverview(configInterface.cfg.RetainerOption, "Retainers");
+        UiHelpers.DrawSeperator("非敵對 NPC", ConfigConstants.Red);
+        DrawSettingsOverview(configInterface.cfg.CompanionOption, "搭檔");
+        DrawSettingsOverview(configInterface.cfg.EventNpcOption, "事件 NPC");
+        DrawSettingsOverview(configInterface.cfg.RetainerOption, "僱員");
 
-        UiHelpers.DrawSeperator("Enemy Npcs", ConfigConstants.Red);
+        UiHelpers.DrawSeperator("敵對 NPC", ConfigConstants.Red);
         DrawSettingsOverview(
             configInterface.cfg.NpcOption,
-            "Enemies",
-            description: "Shows most enemies that are considered battleable",
+            "敵人",
+            description: "顯示大多數可進行戰鬥的敵人。",
             mobType: MobType.Character
         );
         shouldSave |= DrawBoolSeparatedSettingsOverview(
             ref configInterface.cfg.SeparatedRankOne,
-            "Rank 1",
+            "位階 1",
             MobType.Character,
-            "Rank 1 is typically HUNT or NM enemies"
+            "位階 1 通常是狩獵或稀有敵人。"
         );
         shouldSave |= DrawBoolSeparatedSettingsOverview(
             ref configInterface.cfg.SeparatedRankTwoAndSix,
-            "Rank 2 and 6",
+            "位階 2 與 6",
             MobType.Character,
-            "Rank 2 and 6 are typically BOSSES"
+            "位階 2 與 6 通常是首領。"
         );
         ImGui.EndChild();
         if (shouldSave)
@@ -903,41 +903,41 @@ public class MainUi : IDisposable
         bool shouldSave = false;
         ImGui.BeginChild($"##visiblitygeneralsettings-radar-tabs-child", new Vector2(0, 0));
 
-        UiHelpers.DrawSeperator("Objects", ConfigConstants.Red);
+        UiHelpers.DrawSeperator("物件", ConfigConstants.Red);
         DrawSettingsOverview(
             configInterface.cfg.TreasureOption,
-            "Treasure",
-            "Shows most loot. The loot classification is via the dalamud's association."
+            "寶箱",
+            "顯示大多數戰利品，分類方式依 Dalamud 的物件關聯。"
         );
-        DrawSettingsOverview(configInterface.cfg.EventObjOption, "Event Objects");
-        DrawSettingsOverview(configInterface.cfg.AreaOption, "Area Objects");
-        DrawSettingsOverview(configInterface.cfg.AetheryteOption, "Aetherytes");
+        DrawSettingsOverview(configInterface.cfg.EventObjOption, "事件物件");
+        DrawSettingsOverview(configInterface.cfg.AreaOption, "區域物件");
+        DrawSettingsOverview(configInterface.cfg.AetheryteOption, "傳送水晶");
         DrawSettingsOverview(
             configInterface.cfg.CutsceneOption,
-            "Cutscene Objs",
-            "Shows cutscene objects. I have no idea what these are!"
+            "劇情物件",
+            "顯示劇情使用的物件。"
         );
 
-        UiHelpers.DrawSeperator("Misc", ConfigConstants.Red);
+        UiHelpers.DrawSeperator("其他", ConfigConstants.Red);
         DrawSettingsOverview(
             configInterface.cfg.CardStandOption,
-            "Card Stand",
-            "Show card stand. This includes island sanctuary stuff (mostly)."
+            "卡片架",
+            "顯示卡片架，也包含大多數無人島相關物件。"
         );
         DrawSettingsOverview(
             configInterface.cfg.GatheringPointOption,
-            "Gathering Point",
-            "Shows Gathering Points"
+            "採集點",
+            "顯示採集點。"
         );
         DrawSettingsOverview(
             configInterface.cfg.MountOption,
-            "Mount",
-            "Shows mounts. Gets a little cluttered"
+            "坐騎",
+            "顯示坐騎，目標較多時可能顯得雜亂。"
         );
         DrawSettingsOverview(
             configInterface.cfg.OrnamentOption,
-            "Ornaments",
-            "Shows ornaments, like wings."
+            "時尚配飾",
+            "顯示翅膀等時尚配飾。"
         );
         ImGui.EndChild();
         if (shouldSave)
@@ -953,7 +953,7 @@ public class MainUi : IDisposable
     {
         var shouldSave = false;
         shouldSave |= ImGui.Checkbox(
-            $"Separate {tag}##separated-settings",
+            $"個別設定：{tag}##separated-settings",
             ref separatedEspOption.Enabled
         );
         if (infoDescription != null)

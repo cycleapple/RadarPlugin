@@ -15,19 +15,19 @@ namespace RadarPlugin.UI;
 
 public static class UiHelpers
 {
-    public static string[] ObjectDrawTypes = { "Dot", "Name", "Dot + Name", "Custom" };
+    public static string[] ObjectDrawTypes = { "點位", "名稱", "點位＋名稱", "自訂" };
     public static string[] MobDrawTypes =
     {
-        "Dot",
-        "Name",
-        "Dot + Name",
-        "Health Circle",
-        "Health Circle and Value",
-        "Health Circle and Name",
-        "Health Cirlcle + Value + name",
-        "Health Value",
-        "Health Value and Name",
-        "Custom",
+        "點位",
+        "名稱",
+        "點位＋名稱",
+        "HP 圓環",
+        "HP 圓環與數值",
+        "HP 圓環與名稱",
+        "HP 圓環＋數值＋名稱",
+        "HP 數值",
+        "HP 數值與名稱",
+        "自訂",
     };
 
     public static void TextColored(string text, uint color)
@@ -92,44 +92,44 @@ public static class UiHelpers
     )
     {
         var shouldSave = false;
-        UiHelpers.DrawSeperator($"{id} Options", ConfigConstants.Red);
+        UiHelpers.DrawSeperator($"{id} 選項", ConfigConstants.Red);
         // Column 1
         ImGui.Columns(2, $"##{id}-type-settings-columns", false);
 
-        shouldSave |= ImGui.Checkbox($"Enabled##{id}-enabled-bool", ref option.Enabled);
+        shouldSave |= ImGui.Checkbox($"啟用##{id}-enabled-bool", ref option.Enabled);
 
         ImGui.NextColumn();
-        shouldSave |= UiHelpers.Vector4ColorSelector($"Color##{id}-color", ref option.ColorU);
+        shouldSave |= UiHelpers.Vector4ColorSelector($"顏色##{id}-color", ref option.ColorU);
         ImGui.Columns(1);
         ImGui.Columns(2, "", false);
         shouldSave |= UiHelpers.DrawDisplayTypesEnumListBox(
-            $"Display Type##{id}",
+            $"顯示類型##{id}",
             $"{id}",
             mobType,
             ref option.DisplayTypeFlags
         );
         ImGui.NextColumn();
-        if (ImGui.Button($"More Display Options##{id}-more-display-options"))
+        if (ImGui.Button($"更多顯示選項##{id}-more-display-options"))
         {
             ImGui.OpenPopup("MoreDisplayOptionsPopup");
         }
         DrawMobDisplaySettingsPopup("MoreDisplayOptionsPopup", ref option.DisplayTypeFlags);
         ImGui.Columns(1);
         shouldSave |= ImGui.Checkbox(
-            $"Display Types 2D Override##{id}-2d-bool",
+            $"個別設定 2D 顯示類型##{id}-2d-bool",
             ref option.Separate2DOptions
         );
         if (option.Separate2DOptions)
         {
             ImGui.Columns(2, "", false);
             shouldSave |= UiHelpers.DrawDisplayTypesEnumListBox(
-                $"Display Type 2D##{id}-2d",
+                $"2D 顯示類型##{id}-2d",
                 $"{id}-2d",
                 mobType,
                 ref option.DisplayTypeFlags2D
             );
             ImGui.NextColumn();
-            if (ImGui.Button($"More Display Options 2D##{id}-more-display-options"))
+            if (ImGui.Button($"更多 2D 顯示選項##{id}-more-display-options"))
             {
                 ImGui.OpenPopup("MoreDisplayOptionsPopup2D");
             }
@@ -139,7 +139,7 @@ public static class UiHelpers
 
         ImGui.Columns(2, "", false);
         shouldSave |= ImGui.Checkbox(
-            $"Override 3D Dot Size##{id}-distance-bool",
+            $"覆寫 3D 點位大小##{id}-distance-bool",
             ref option.DotSizeOverride
         );
         if (option.DotSizeOverride)
@@ -158,16 +158,16 @@ public static class UiHelpers
         if (mobType == MobType.Player)
         {
             shouldSave |= ImGui.Checkbox(
-                $"Replace Name With Job##{id}-name-job-replacement",
+                $"以職業取代名稱##{id}-name-job-replacement",
                 ref option.ReplaceWithJobName
             );
 
-            shouldSave |= ImGui.Checkbox($"Show MP##{id}-mp-value-shown", ref option.ShowMp);
+            shouldSave |= ImGui.Checkbox($"顯示 MP##{id}-mp-value-shown", ref option.ShowMp);
         }
 
         if (mobType == MobType.Character && displayOrigination == DisplayOrigination.OpenWorld)
         {
-            shouldSave |= ImGui.Checkbox("Append Level To Name", ref option.AppendLevelToName);
+            shouldSave |= ImGui.Checkbox("在名稱後附加等級", ref option.AppendLevelToName);
         }
 
         //Reset Column
@@ -183,9 +183,9 @@ public static class UiHelpers
             var drawDot = option.HasFlag(DisplayTypeFlags.Dot);
             if (
                 UiHelpers.DrawCheckbox(
-                    $"Draw Dot##{popupId}",
+                    $"繪製點位##{popupId}",
                     ref drawDot,
-                    "Draws a dot where the real hitbox is"
+                    "在實際碰撞箱位置繪製點位。"
                 )
             )
             {
@@ -196,9 +196,9 @@ public static class UiHelpers
             var drawName = option.HasFlag(DisplayTypeFlags.Name);
             if (
                 UiHelpers.DrawCheckbox(
-                    $"Draw Name##{popupId}",
+                    $"繪製名稱##{popupId}",
                     ref drawName,
-                    "Draws the name of the object"
+                    "顯示物件名稱。"
                 )
             )
             {
@@ -209,9 +209,9 @@ public static class UiHelpers
             var drawHealthCircle = option.HasFlag(DisplayTypeFlags.HealthCircle);
             if (
                 UiHelpers.DrawCheckbox(
-                    $"Draw Health Circle##{popupId}",
+                    $"繪製 HP 圓環##{popupId}",
                     ref drawHealthCircle,
-                    "Draws a circle around the object representing health"
+                    "在物件周圍繪製代表 HP 的圓環。"
                 )
             )
             {
@@ -222,9 +222,9 @@ public static class UiHelpers
             var drawHealthValue = option.HasFlag(DisplayTypeFlags.HealthValue);
             if (
                 UiHelpers.DrawCheckbox(
-                    $"Draw Health Value##{popupId}",
+                    $"繪製 HP 數值##{popupId}",
                     ref drawHealthValue,
-                    "Draws the health value of the object"
+                    "顯示物件的 HP 數值。"
                 )
             )
             {
@@ -235,9 +235,9 @@ public static class UiHelpers
             var drawDistance = option.HasFlag(DisplayTypeFlags.Distance);
             if (
                 UiHelpers.DrawCheckbox(
-                    $"Draw Distance##{popupId}",
+                    $"繪製距離##{popupId}",
                     ref drawDistance,
-                    "Draws the distance to the object"
+                    "顯示與物件之間的距離。"
                 )
             )
             {
@@ -874,14 +874,14 @@ public static class UiHelpers
     )
     {
         var shouldSave = false;
-        shouldSave |= UiHelpers.DrawCheckbox("Enabled", ref cfgRadar2DConfiguration.Enabled);
+        shouldSave |= UiHelpers.DrawCheckbox("啟用", ref cfgRadar2DConfiguration.Enabled);
         shouldSave |= UiHelpers.DrawCheckbox(
-            "Clickthrough",
+            "點擊穿透",
             ref cfgRadar2DConfiguration.Clickthrough
         );
-        shouldSave |= UiHelpers.DrawCheckbox("Show Cross", ref cfgRadar2DConfiguration.ShowCross);
+        shouldSave |= UiHelpers.DrawCheckbox("顯示十字線", ref cfgRadar2DConfiguration.ShowCross);
         shouldSave |= UiHelpers.Vector4ColorSelector(
-            "Cross Color",
+            "十字線顏色",
             ref cfgRadar2DConfiguration.CrossColor
         );
 
@@ -895,16 +895,16 @@ public static class UiHelpers
 
         ImGui.PopFont();
         shouldSave |= UiHelpers.DrawCheckbox(
-            "Show Radar Border",
+            "顯示雷達邊框",
             ref cfgRadar2DConfiguration.ShowRadarBorder
         );
-        UiHelpers.LabeledHelpMarker("", "Doesn't work atm - Request it and I'll prioritize!");
+        UiHelpers.LabeledHelpMarker("", "此功能目前尚未運作。");
         shouldSave |= UiHelpers.DrawCheckbox(
-            "Show Radar Background",
+            "顯示雷達背景",
             ref cfgRadar2DConfiguration.ShowBackground
         );
         shouldSave |= UiHelpers.Vector4ColorSelector(
-            "Background Color",
+            "背景顏色",
             ref cfgRadar2DConfiguration.BackgroundColor
         );
         ImGui.SameLine();
@@ -917,34 +917,34 @@ public static class UiHelpers
 
         ImGui.PopFont();
         shouldSave |= UiHelpers.DrawCheckbox(
-            "Show Settings",
+            "顯示雷達內設定",
             ref cfgRadar2DConfiguration.ShowSettings
         );
-        shouldSave |= UiHelpers.DrawCheckbox("Show Scale", ref cfgRadar2DConfiguration.ShowScale);
+        shouldSave |= UiHelpers.DrawCheckbox("顯示比例尺", ref cfgRadar2DConfiguration.ShowScale);
         shouldSave |= UiHelpers.DrawCheckbox(
-            "Show Your Position",
+            "顯示自己位置",
             ref cfgRadar2DConfiguration.ShowYourCurrentPosition
         );
         shouldSave |= UiHelpers.DrawCheckbox(
-            "Rotation Locked North",
+            "鎖定北方朝上",
             ref cfgRadar2DConfiguration.RotationLockedNorth
         );
-        if (ImGui.CollapsingHeader("Player Cone"))
+        if (ImGui.CollapsingHeader("玩家視錐"))
         {
             ImGui.Indent(8);
             shouldSave |= DrawConeSettings(
-                "Player Cone",
+                "玩家視錐",
                 "player-cone",
                 ref cfgRadar2DConfiguration.PlayerConeSettings
             );
             ImGui.Unindent(8);
         }
 
-        if (ImGui.CollapsingHeader("Camera Cone"))
+        if (ImGui.CollapsingHeader("鏡頭視錐"))
         {
             ImGui.Indent(8);
             shouldSave |= DrawConeSettings(
-                "Camera Cone",
+                "鏡頭視錐",
                 "camera-cone",
                 ref cfgRadar2DConfiguration.CameraConeSettings
             );
@@ -978,7 +978,7 @@ public static class UiHelpers
         );
         UiHelpers.DrawFloatWithResetSlider(
             ref cfgConeConfiguration.Radius,
-            "Radius",
+            "半徑",
             $"{coneSettingsTag}-radius",
             0.0f,
             500f,
@@ -988,7 +988,7 @@ public static class UiHelpers
         if (
             UiHelpers.DrawFloatWithResetSlider(
                 ref angle,
-                "Angle",
+                "角度",
                 $"{coneSettingsTag}-angle",
                 0.0f,
                 180,
