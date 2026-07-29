@@ -75,12 +75,12 @@ public class MainUi : IDisposable
         {
             UiHelpers.DrawTabs(
                 "radar-settings-tabs",
-                ("General", ConfigConstants.White, DrawGeneralSettings),
-                ("Mob Settings", ConfigConstants.Red, DrawVisibilitySettings),
-                ("2D Radar", Color.White, Draw2DRadarSettings),
-                ("Additional Features", ConfigConstants.White, ShowMiscSettings),
-                ("Utility", ConfigConstants.White, DrawUtilityTab),
-                ("Config", ConfigConstants.White, DrawConfigTab)
+                ("一般", ConfigConstants.White, DrawGeneralSettings),
+                ("目標設定", ConfigConstants.Red, DrawVisibilitySettings),
+                ("2D 雷達", Color.White, Draw2DRadarSettings),
+                ("附加功能", ConfigConstants.White, ShowMiscSettings),
+                ("工具", ConfigConstants.White, DrawUtilityTab),
+                ("設定檔", ConfigConstants.White, DrawConfigTab)
             );
         }
 
@@ -95,15 +95,15 @@ public class MainUi : IDisposable
     private void DrawConfigTab()
     {
         var shouldSave = false;
-        ImGui.Text("Current Config Name:");
+        ImGui.Text("目前設定檔名稱：");
         shouldSave |= ImGui.InputText("", ref configInterface.cfg.ConfigName, 50);
 
-        if (ImGui.Button("Save Current Config"))
+        if (ImGui.Button("儲存目前設定檔"))
         {
             this.configInterface.SaveCurrentConfig();
         }
 
-        ImGui.Text("Saved Configurations:");
+        ImGui.Text("已儲存的設定檔：");
         var selectedConfig = configInterface.selectedConfig;
         if (
             ImGui.Combo(
@@ -120,19 +120,19 @@ public class MainUi : IDisposable
             }
         }
 
-        if (ImGui.Button("Load Selected Config"))
+        if (ImGui.Button("載入所選設定檔"))
         {
             this.configInterface.LoadConfig(configInterface.configs[selectedConfig]);
         }
 
-        UiHelpers.HoverTooltip("This will save your current config when loading!");
+        UiHelpers.HoverTooltip("載入時會先儲存目前設定檔！");
         ImGui.SameLine();
-        if (ImGui.Button("Delete Selected Config"))
+        if (ImGui.Button("刪除所選設定檔"))
         {
             ImGui.OpenPopup("DeleteConfigPopup");
         }
 
-        if (ImGui.Button("New BLANK Config"))
+        if (ImGui.Button("新增空白設定檔"))
         {
             this.configInterface.SaveNewDefaultConfig();
         }
@@ -143,9 +143,9 @@ public class MainUi : IDisposable
         {
             ImGui.TextColored(
                 ImGui.ColorConvertU32ToFloat4(ConfigConstants.White),
-                $"Do you really want to delete the config: \"{configInterface.configs[selectedConfig]}\"?"
+                $"確定要刪除設定檔「{configInterface.configs[selectedConfig]}」嗎？"
             );
-            if (ImGui.Button("Yes"))
+            if (ImGui.Button("是"))
             {
                 this.configInterface.DeleteConfig(configInterface.configs[selectedConfig]);
                 ImGui.CloseCurrentPopup();
@@ -153,7 +153,7 @@ public class MainUi : IDisposable
 
             ImGui.SameLine();
             ImGui.PushStyleColor(ImGuiCol.Text, ConfigConstants.Red);
-            if (ImGui.Button("No"))
+            if (ImGui.Button("否"))
             {
                 ImGui.CloseCurrentPopup();
             }
@@ -175,7 +175,7 @@ public class MainUi : IDisposable
 
         ImGui.Separator();
 
-        if (ImGui.Button("Load Current Objects Menu"))
+        if (ImGui.Button("載入目前區域物件清單"))
         {
             pluginLog.Debug("Pulling Area Objects");
             this.localMobsUi.DrawLocalMobsUi();
@@ -183,9 +183,9 @@ public class MainUi : IDisposable
 
         ImGui.Separator();
 
-        ImGui.Text($"Current Map ID: {clientState.TerritoryType}");
-        ImGui.Text($"Zone Type: {radarModules.zoneTypeModule.GetLocationType()}");
-        if (ImGui.Button("Show Current Customizations"))
+        ImGui.Text($"目前地圖 ID：{clientState.TerritoryType}");
+        ImGui.Text($"區域類型：{radarModules.zoneTypeModule.GetLocationType()}");
+        if (ImGui.Button("顯示目前自訂項目"))
         {
             customizedEntitiesUi.ShowCustomizedEntitiesUI();
         }
@@ -202,37 +202,35 @@ public class MainUi : IDisposable
     private void DrawGeneralSettings()
     {
         var shouldSave = false;
-        UiHelpers.TextColored("This is made by KangasZ for use in FFXIV.", ConfigConstants.Yellow);
-        shouldSave |= UiHelpers.DrawCheckbox("Plugin Enabled", ref configInterface.cfg.Enabled);
+        UiHelpers.TextColored("由 KangasZ 製作，供 FFXIV 使用。", ConfigConstants.Yellow);
+        shouldSave |= UiHelpers.DrawCheckbox("啟用插件", ref configInterface.cfg.Enabled);
 
         shouldSave |= UiHelpers.DrawCheckbox(
-            "3D Radar Enabled",
+            "啟用 3D 雷達",
             ref configInterface.cfg.Radar3DEnabled,
-            "This will enable the 3D radar."
+            "啟用 3D 雷達。"
         );
 
         shouldSave |= UiHelpers.DrawCheckbox(
-            "2D Radar Enabled",
+            "啟用 2D 雷達",
             ref configInterface.cfg.Radar2DConfiguration.Enabled,
-            "This will enable the 2D radar."
+            "啟用 2D 雷達。"
         );
 
         shouldSave |= UiHelpers.DrawCheckbox(
-            "Overworld Enabled",
+            "啟用野外顯示",
             ref configInterface.cfg.ShowOverworldObjects,
-            "This will be enabled when you want to view overworld objects."
-                + "Otherwise it will not show objects in the overworld"
+            "啟用後會顯示野外區域中的物件，停用時不會顯示。"
         );
 
         shouldSave |= UiHelpers.DrawCheckbox(
-            "Eureka/Occult Crescent/Deep Dungeons Support",
+            "支援優雷卡／蜃景幻界／深層迷宮",
             ref configInterface.cfg.ShowBaDdObjects,
-            "This focuses on giving support to eureka and deep dungeons.\n"
-                + "Will display things such as portals, chests, and traps."
+            "著重支援優雷卡與深層迷宮，會顯示傳送門、寶箱及陷阱等物件。"
         );
 
         shouldSave |= UiHelpers.DrawNumberInputBox(
-            "Your Account Id",
+            "你的帳號 ID",
             ref configInterface.cfg.YourAccountId,
             "This will use your account id to deobfuscate others account ids.\n"
                 + "I will update this to support alternate accounts sometime probably.\n"
@@ -242,36 +240,35 @@ public class MainUi : IDisposable
         );
 
         shouldSave |= UiHelpers.DrawCheckbox(
-            "Use Background Draw List",
+            "使用背景繪製清單",
             ref configInterface.cfg.UseBackgroundDrawList,
-            "This feature will use a background draw list from ImGui to render the 3d radar.\n"
-                + "It will be under any other Dalamud plugin. This is the original behavior.\n"
-                + "There should be practically no difference between this and normal operations"
+            "使用 ImGui 背景繪製清單顯示 3D 雷達。\n"
+                + "雷達會位於其他 Dalamud 插件下層，這是原本的顯示方式；正常使用時幾乎沒有差異。"
         );
 
         shouldSave |= UiHelpers.DrawDotSizeSlider(
             ref configInterface.cfg.DotSize,
             "default-dot-size",
-            "3D Dot Size"
+            "3D 點位大小"
         );
         shouldSave |= UiHelpers.DrawDotSizeSlider(
             ref configInterface.cfg.DotSize2D,
             "default-dot-size-3d",
-            "2D Dot Size"
+            "2D 點位大小"
         );
 
         shouldSave |= UiHelpers.DrawCheckbox(
-            "Debug Text",
+            "除錯文字",
             ref configInterface.cfg.DebugText,
-            "Replaces name with a debug string of:\n'Name, DataId, MobType'\n/radar showdebug"
+            "以「名稱、DataId、目標類型」除錯字串取代名稱。\n/radar showdebug"
         );
 
-        if (ImGui.CollapsingHeader("Filtering Rules"))
+        if (ImGui.CollapsingHeader("篩選規則"))
         {
             shouldSave |= UiHelpers.DrawCheckbox(
-                "Maximum Distance",
+                "最大距離",
                 ref configInterface.cfg.UseMaxDistance,
-                "Max distance for the esp"
+                "ESP 顯示的最大距離。"
             );
             if (configInterface.cfg.UseMaxDistance)
             {
@@ -288,42 +285,42 @@ public class MainUi : IDisposable
             }
 
             shouldSave |= UiHelpers.DrawCheckbox(
-                "Only Show Visible Entities",
+                "只顯示可見目標",
                 ref configInterface.cfg.ShowOnlyVisible,
-                "Show only visible mobs.\nUsually you want to keep this ON\nMay not remove all invisible entities currently. Use the local objects menu."
+                "只顯示可見目標，通常建議保持啟用。\n目前可能無法排除所有不可見目標，可使用區域物件清單處理。"
             );
 
             if (configInterface.cfg.ShowOnlyVisible)
             {
                 ImGui.SameLine();
                 shouldSave |= UiHelpers.DrawCheckbox(
-                    "Show Invisible Player Characters",
+                    "顯示不可見玩家角色",
                     ref configInterface.cfg.OverrideShowInvisiblePlayerCharacters,
-                    "Will show invisible player characters (like GMs or players loading in).\nI have 0 proof that this works on GMs."
+                    "顯示不可見的玩家角色，例如正在載入的玩家；不保證能套用於 GM。"
                 );
             }
 
             UiHelpers.DrawCheckbox(
-                "Show Nameless",
+                "顯示無名稱目標",
                 ref configInterface.cfg.ShowNameless,
-                "Show nameless mobs.\nYou probably want to keep this OFF."
+                "顯示沒有名稱的目標，通常建議保持停用。"
             );
             UiHelpers.DrawCheckbox(
-                "Show All Entities",
+                "顯示所有目標",
                 ref configInterface.cfg.DebugMode,
-                "Shows everything no matter what.\n/radar showall"
+                "忽略其他條件並顯示所有目標。\n/radar showall"
             );
             UiHelpers.DrawCheckbox(
-                "Show Rank Text",
+                "顯示位階文字",
                 ref configInterface.cfg.RankText,
-                "Shows rank text for Battle NPCS. Rank text is loosely associated with hunt and boss mobs.\nThis is a DEBUGGING thing"
+                "顯示戰鬥 NPC 的位階文字，通常與狩獵及首領目標相關；此為除錯功能。"
             );
         }
 
         ImGui.Separator();
-        UiHelpers.TextColored("Thank you for your support!", ConfigConstants.Red);
+        UiHelpers.TextColored("感謝你的支持！", ConfigConstants.Red);
         ImGui.Separator();
-        UiHelpers.TextColored("Issues or Feedback:", ConfigConstants.Red);
+        UiHelpers.TextColored("問題與意見回饋：", ConfigConstants.Red);
         ImGui.SameLine();
         UiHelpers.TextURL(
             "GitHub",
@@ -332,18 +329,18 @@ public class MainUi : IDisposable
         );
         ImGui.Indent();
         UiHelpers.TextColored(
-            "1. Use tabs to customize experience and fix invisible mobs.\n"
-                + "2. Bring bugs or feature requests up\n",
+            "1. 使用各分頁自訂顯示方式並處理不可見目標。\n"
+                + "2. 歡迎提出錯誤或功能需求。\n",
             ConfigConstants.Yellow
         );
         ImGui.Unindent();
         ImGui.Spacing();
         ImGui.TextWrapped(
-            "Note 1: Entities that are not on the client are not viewable. For instance, deep dungeon traps are not visible until you unveil them."
+            "注意 1：客戶端尚未載入的目標無法顯示，例如深層迷宮陷阱必須被揭露後才可見。"
         );
         ImGui.Spacing();
         ImGui.TextWrapped(
-            "Note 2: Invisible mobs may be shown. Use the Utility tab to remove these."
+            "注意 2：可能會顯示不可見目標，請使用「工具」分頁排除。"
         );
         if (shouldSave)
             configInterface.Save();
@@ -354,26 +351,26 @@ public class MainUi : IDisposable
         var shouldSave = false;
 
         shouldSave |= ImGui.Checkbox(
-            "Use Custom Font##custom-font-selector-default",
+            "使用自訂字型##custom-font-selector-default",
             ref configInterface.cfg.FontSettings.UseCustomFont
         );
         UiHelpers.LabeledHelpMarker(
             "",
-            "Use a custom font size and potentially type instead of the default ImGui font.\nThis may lag your game slightly when you enable it the first time."
+            "使用自訂字型大小及字型取代預設 ImGui 字型。\n首次啟用時可能造成短暫卡頓。"
         );
 
         shouldSave |= ImGui.Checkbox(
-            "Use Axis Font##axis-font-selector-default",
+            "使用 Axis 字型##axis-font-selector-default",
             ref configInterface.cfg.FontSettings.UseAxisFont
         );
         UiHelpers.LabeledHelpMarker(
             "",
-            "Uses the axis font instead of default dalamud.\nThis is what most of the game is rendered with."
+            "使用 Axis 字型取代 Dalamud 預設字型；遊戲內大多數文字使用此字型。"
         );
 
         shouldSave |= UiHelpers.DrawFloatWithResetSlider(
             ref configInterface.cfg.FontSettings.FontSize,
-            "Font Size",
+            "字型大小",
             "font-scale-default-window",
             7f,
             36f,
@@ -443,23 +440,23 @@ public class MainUi : IDisposable
     {
         UiHelpers.DrawTabs(
             "radar-visibility-tabs",
-            ("Players", ConfigConstants.Silver, DrawPlayerGeneralSettings),
-            ("Mobs", ConfigConstants.Green, DrawMobsVisibilitySettings),
-            ("Entities", ConfigConstants.LightBlue, DrawEntitiesVisibilitySettings),
-            ("Foray/DD", ConfigConstants.Yellow, DrawDeepDungeonOverviewSettings)
+            ("玩家", ConfigConstants.Silver, DrawPlayerGeneralSettings),
+            ("敵人", ConfigConstants.Green, DrawMobsVisibilitySettings),
+            ("物件", ConfigConstants.LightBlue, DrawEntitiesVisibilitySettings),
+            ("特殊探索／深層迷宮", ConfigConstants.Yellow, DrawDeepDungeonOverviewSettings)
         );
     }
 
     private void DrawPlayerGeneralSettings()
     {
         var shouldSave = false;
-        UiHelpers.DrawSeperator("Players", ConfigConstants.Red);
-        DrawSettingsOverview(configInterface.cfg.PlayerOption, "Players", mobType: MobType.Player);
+        UiHelpers.DrawSeperator("玩家", ConfigConstants.Red);
+        DrawSettingsOverview(configInterface.cfg.PlayerOption, "玩家", mobType: MobType.Player);
 
         // Custom YOUR PLAYER that I don't want to deal with yet.\
         ImGui.Separator();
         ImGui.PushStyleColor(ImGuiCol.Text, ConfigConstants.Red);
-        ImGui.Text("Separators");
+        ImGui.Text("個別分類");
         ImGui.PopStyleColor();
         UiHelpers.LabeledHelpMarker(
             "",
@@ -469,25 +466,25 @@ public class MainUi : IDisposable
         ImGui.Separator();
         shouldSave |= DrawBoolSeparatedSettingsOverview(
             ref configInterface.cfg.SeparatedYourPlayer,
-            "Your Player",
+            "自己",
             MobType.Player
         );
 
         shouldSave |= DrawBoolSeparatedSettingsOverview(
             ref configInterface.cfg.SeparatedParty,
-            "Party",
+            "小隊",
             MobType.Player
         );
 
         shouldSave |= DrawBoolSeparatedSettingsOverview(
             ref configInterface.cfg.SeparatedFriends,
-            "Friends",
+            "好友",
             MobType.Player
         );
 
         shouldSave |= DrawBoolSeparatedSettingsOverview(
             ref configInterface.cfg.SeparatedAlliance,
-            "Alliance",
+            "團隊",
             MobType.Player
         );
 
@@ -497,86 +494,86 @@ public class MainUi : IDisposable
 
     private void DrawDeepDungeonOverviewSettings()
     {
-        UiHelpers.DrawSeperator($"Enemies Options", ConfigConstants.Red);
+        UiHelpers.DrawSeperator("敵人選項", ConfigConstants.Red);
         DrawSettingsOverview(
             configInterface.cfg.DeepDungeonOptions.SpecialUndeadOption,
-            "Special Undead",
+            "特殊不死系敵人",
             mobType: MobType.Character,
             displayOrigination: DisplayOrigination.DeepDungeon
         );
         DrawSettingsOverview(
             configInterface.cfg.DeepDungeonOptions.DefaultEnemyOption,
-            "'Catch All' mobs",
+            "其他敵人",
             mobType: MobType.Character,
             displayOrigination: DisplayOrigination.DeepDungeon
         );
         DrawSettingsOverview(
             configInterface.cfg.DeepDungeonOptions.AuspiceOption,
-            "Friendly Mobs",
+            "友方目標",
             mobType: MobType.Character,
             displayOrigination: DisplayOrigination.DeepDungeon
         );
         DrawSettingsOverview(
             configInterface.cfg.DeepDungeonOptions.EasyMobOption,
-            "Easy Mobs",
+            "簡單敵人",
             mobType: MobType.Character,
             displayOrigination: DisplayOrigination.DeepDungeon
         );
         DrawSettingsOverview(
             configInterface.cfg.DeepDungeonOptions.MimicOption,
-            "Mimic",
+            "寶箱怪",
             mobType: MobType.Character,
             displayOrigination: DisplayOrigination.DeepDungeon
         );
         DrawSettingsOverview(
             configInterface.cfg.DeepDungeonOptions.PatrolOption,
-            "Patrol mobs",
+            "巡邏敵人",
             mobType: MobType.Character,
             displayOrigination: DisplayOrigination.DeepDungeon
         );
         
-        UiHelpers.DrawSeperator($"Loot Options", ConfigConstants.Red);
+        UiHelpers.DrawSeperator("戰利品選項", ConfigConstants.Red);
         DrawSettingsOverview(
             configInterface.cfg.DeepDungeonOptions.GoldChestOption,
-            "Gold Chest",
+            "金寶箱",
             displayOrigination: DisplayOrigination.DeepDungeon
         );
         DrawSettingsOverview(
             configInterface.cfg.DeepDungeonOptions.SilverChestOption,
-            "Silver Chest",
+            "銀寶箱",
             displayOrigination: DisplayOrigination.DeepDungeon
         );
         DrawSettingsOverview(
             configInterface.cfg.DeepDungeonOptions.BronzeChestOption,
-            "Bronze Chest",
+            "銅寶箱",
             displayOrigination: DisplayOrigination.DeepDungeon
         );
         DrawSettingsOverview(
             configInterface.cfg.DeepDungeonOptions.AccursedHoardOption,
-            "Accursed Hoard",
+            "埋藏的寶藏",
             displayOrigination: DisplayOrigination.DeepDungeon
         );
 
-        UiHelpers.DrawSeperator($"DD Specific Options", ConfigConstants.Red);
+        UiHelpers.DrawSeperator("深層迷宮專用選項", ConfigConstants.Red);
         DrawSettingsOverview(
             configInterface.cfg.DeepDungeonOptions.TrapOption,
-            "Traps",
+            "陷阱",
             displayOrigination: DisplayOrigination.DeepDungeon
         );
         DrawSettingsOverview(
             configInterface.cfg.DeepDungeonOptions.ReturnOption,
-            "Return",
+            "重生石塔",
             displayOrigination: DisplayOrigination.DeepDungeon
         );
         DrawSettingsOverview(
             configInterface.cfg.DeepDungeonOptions.PassageOption,
-            "Passage",
+            "轉移石塔",
             displayOrigination: DisplayOrigination.DeepDungeon,
             description: "This also contains the carrot? and some mixed spots in OC"
         );
         DrawSettingsOverview(
             configInterface.cfg.DeepDungeonOptions.ActivatableOption,
-            "Activatables",
+            "可啟動物件",
             displayOrigination: DisplayOrigination.DeepDungeon,
             description: "Candalabras, and (eventually) spots in OC/Bozja/Eureka(?)"
         );
@@ -613,7 +610,7 @@ public class MainUi : IDisposable
         }
 
         ImGui.SameLine(ImGui.GetWindowWidth() - 100);
-        if (ImGui.Button($"More Options##button-for-type-configurator{tag}"))
+        if (ImGui.Button($"更多選項##button-for-type-configurator{tag}"))
         {
             typeConfigurator.OpenUiWithType(ref espOption, tag, mobType, displayOrigination);
         }

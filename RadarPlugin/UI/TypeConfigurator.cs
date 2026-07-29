@@ -77,7 +77,7 @@ public class TypeConfigurator
         ImGui.SetNextWindowSizeConstraints(size, new Vector2(float.MaxValue, float.MaxValue));
         if (ImGui.Begin("Radar Plugin Type Configurator", ref configuratorWindowVisible))
         {
-            ImGui.Text($"Currently Updating: {espDescription}");
+        ImGui.Text($"目前編輯：{espDescription}");
             var shouldSave = UiHelpers.DrawSettingsDetailed(
                 espOption,
                 espDescription,

@@ -98,7 +98,7 @@ public class CustomizedEntitiesUI : IDisposable
         var optionOverrideArray = optionOverrideIEnumerable.ToArray();
         if (mobType == MobType.Character)
         {
-            ImGui.Text("Add Customized Entity dataId:");
+        ImGui.Text("新增自訂目標 DataId：");
             ImGui.SameLine();
             ImGui.InputText(
                 "",
@@ -106,7 +106,7 @@ public class CustomizedEntitiesUI : IDisposable
                 10,
                 ImGuiInputTextFlags.CharsDecimal | ImGuiInputTextFlags.CharsNoBlank
             );
-            if (ImGui.Button("Add As Object"))
+        if (ImGui.Button("新增為物件"))
             {
                 var parsed = uint.TryParse(currentTypedDataId, out var dataId);
                 if (!parsed)
@@ -137,7 +137,7 @@ public class CustomizedEntitiesUI : IDisposable
             if (ImGui.BeginPopup("FailedDataIdParsePopup"))
             {
                 UiHelpers.TextColored("Beep Beep: You didnt enter a uint :(", ConfigConstants.Red);
-                if (ImGui.Button("OK"))
+        if (ImGui.Button("確定"))
                 {
                     ImGui.CloseCurrentPopup();
                 }
@@ -184,13 +184,13 @@ public class CustomizedEntitiesUI : IDisposable
             ImGuiTableFlags.Borders | ImGuiTableFlags.RowBg | ImGuiTableFlags.Sortable
         );
         ImGui.TableSetupColumn("DataId");
-        ImGui.TableSetupColumn("Name When Added");
-        ImGui.TableSetupColumn("Name Last Seen");
-        ImGui.TableSetupColumn("Time Last Seen");
-        ImGui.TableSetupColumn("Enabled");
-        ImGui.TableSetupColumn("Color", ImGuiTableColumnFlags.NoSort);
-        ImGui.TableSetupColumn("Edit", ImGuiTableColumnFlags.NoSort);
-        ImGui.TableSetupColumn("Delete", ImGuiTableColumnFlags.NoSort);
+        ImGui.TableSetupColumn("新增時名稱");
+        ImGui.TableSetupColumn("最後看見的名稱");
+        ImGui.TableSetupColumn("最後看見時間");
+        ImGui.TableSetupColumn("啟用");
+        ImGui.TableSetupColumn("顏色", ImGuiTableColumnFlags.NoSort);
+        ImGui.TableSetupColumn("編輯", ImGuiTableColumnFlags.NoSort);
+        ImGui.TableSetupColumn("刪除", ImGuiTableColumnFlags.NoSort);
 
         var optionOverrideTemporary = GetSortedOptionOverride(optionOverrideArray);
 
@@ -238,7 +238,7 @@ public class CustomizedEntitiesUI : IDisposable
 
             //Edit
             ImGui.TableNextColumn();
-            if (ImGui.Button($"Edit##{x.Id}"))
+            if (ImGui.Button($"編輯##{x.Id}"))
             {
                 Configuration.Configuration.ESPOption optionOverride;
                 if (mobType == MobType.Player)
@@ -260,7 +260,7 @@ public class CustomizedEntitiesUI : IDisposable
 
             // Delete
             ImGui.TableNextColumn();
-            if (ImGui.Button($"Delete##{x.Id}"))
+            if (ImGui.Button($"刪除##{x.Id}"))
             {
                 ImGui.OpenPopup($"DeleteConfigPopup##{x.Id}");
             }
@@ -272,7 +272,7 @@ public class CustomizedEntitiesUI : IDisposable
                 ImGui.Text(
                     $"Are you sure you want to delete the config for the mob: {x.LastSeenName}?"
                 );
-                if (ImGui.Button("Yes"))
+            if (ImGui.Button("是"))
                 {
                     if (mobType == MobType.Player)
                     {
@@ -288,7 +288,7 @@ public class CustomizedEntitiesUI : IDisposable
                 }
 
                 ImGui.SameLine();
-                if (ImGui.Button("No"))
+            if (ImGui.Button("否"))
                 {
                     ImGui.CloseCurrentPopup();
                 }

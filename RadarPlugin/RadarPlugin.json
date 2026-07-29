@@ -1,8 +1,8 @@
 ﻿{
   "Name": "Radar Plugin",
   "Author": "KangasZ",
-  "Description": "Radar to see enemies, objects, and interactables through walls.\nThis is an ESP, please don't use it to call aliens down.\nPlease report any issues to the author.",
+  "Description": "可穿透牆壁查看敵人、物件與互動目標的雷達。\n這是一個 ESP 顯示工具，請勿用它召喚外星人。\n如有問題請回報作者。",
   "RepoUrl": "https://github.com/KangasZ/RadarPlugin",
-  "Punchline": "See everything through walls",
-  "Changelog": "Initial support for new deep dungeon"
+  "Punchline": "穿透牆壁查看周遭目標",
+  "Changelog": "初步支援新的深層迷宮"
 }

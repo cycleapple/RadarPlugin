@@ -64,22 +64,22 @@ public class MobEditUi : IDisposable
 
             ImGui.SetColumnWidth(0, ImGui.GetWindowWidth() / 2);
             // Setup First column
-            ImGui.Text("Information Table");
+        ImGui.Text("資訊表");
             ImGui.BeginTable(
                 "localobjecttable",
                 2,
                 ImGuiTableFlags.Borders | ImGuiTableFlags.RowBg
             );
-            ImGui.TableSetupColumn("Setting");
-            ImGui.TableSetupColumn("Value");
+        ImGui.TableSetupColumn("設定");
+        ImGui.TableSetupColumn("數值");
             ImGui.TableHeadersRow();
 
             ImGui.TableNextColumn();
-            ImGui.Text("Name");
+        ImGui.Text("名稱");
             ImGui.TableNextColumn();
             ImGui.Text($"{localObject.Name}");
             ImGui.TableNextColumn();
-            ImGui.Text("Given Name");
+        ImGui.Text("指定名稱");
             ImGui.TableNextColumn();
             ImGui.Text(
                 $"{radarModules.radarConfigurationModule.GetText(localObject, mobOvveride)}"
@@ -89,26 +89,26 @@ public class MobEditUi : IDisposable
             ImGui.TableNextColumn();
             ImGui.Text($"{localObject.DataId}");
             ImGui.TableNextColumn();
-            ImGui.Text("Type");
+        ImGui.Text("類型");
             ImGui.TableNextColumn();
             ImGui.Text($"{localObject.ObjectKind}");
             ImGui.EndTable();
 
-            ImGui.Text("Disabled table");
+        ImGui.Text("停用狀態表");
             ImGui.BeginTable(
                 "disabledbylocalobjecttable",
                 2,
                 ImGuiTableFlags.Borders | ImGuiTableFlags.RowBg
             );
-            ImGui.TableSetupColumn("Source");
-            ImGui.TableSetupColumn("Value");
+        ImGui.TableSetupColumn("來源");
+        ImGui.TableSetupColumn("數值");
             ImGui.TableHeadersRow();
             ImGui.TableNextColumn();
-            ImGui.Text("Utility");
+        ImGui.Text("工具");
             ImGui.TableNextColumn();
             ImGui.Text($"{utilIgnored}");
             ImGui.TableNextColumn();
-            ImGui.Text("User");
+        ImGui.Text("使用者");
             ImGui.TableNextColumn();
             string userCustomOptionsText;
             if (isUsingCustomEspOption)
@@ -121,12 +121,12 @@ public class MobEditUi : IDisposable
             }
             ImGui.Text($"{userCustomOptionsText}");
             ImGui.TableNextColumn();
-            ImGui.Text("Overall");
+        ImGui.Text("總體");
             ImGui.TableNextColumn();
 
             ImGui.Text($"NOT WORKING ATM, figure it out :)");
             ImGui.TableNextColumn();
-            ImGui.Text("Disablable?");
+        ImGui.Text("可停用？");
             ImGui.TableNextColumn();
             ImGui.Text($"{localObject.DataId != 0}");
             ImGui.EndTable();
@@ -134,7 +134,7 @@ public class MobEditUi : IDisposable
             // Setup second column
             ImGui.NextColumn();
 
-            ImGui.Text("You cannot modify a mob with a data id of 0!");
+        ImGui.Text("無法修改 DataId 為 0 的目標！");
             if (localObject.DataId != 0)
             {
                 //TODO: Grab the custom overridden thingy
@@ -176,7 +176,7 @@ public class MobEditUi : IDisposable
                             ImGui.ColorConvertFloat4ToU32(colorChange);
                         configInterface.Save();
                     }
-                    if (ImGui.Button("Open Up Modification UI"))
+        if (ImGui.Button("開啟修改介面"))
                     {
                         typeConfiguration.OpenUiWithType(
                             ref mobOvveride,

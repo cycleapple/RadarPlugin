@@ -231,7 +231,7 @@ public class LocalMobsUi : IDisposable
         {
             ImGui.SameLine();
             var showPlayers = configInterface.cfg.LocalMobsUiSettings.ShowPlayers;
-            if (ImGui.Checkbox("Players##localmobsui", ref showPlayers))
+        if (ImGui.Checkbox("玩家##localmobsui", ref showPlayers))
             {
                 configInterface.cfg.LocalMobsUiSettings.ShowPlayers = showPlayers;
                 configInterface.Save();
@@ -239,18 +239,18 @@ public class LocalMobsUi : IDisposable
 
             ImGui.SameLine();
             var showDuplicates = configInterface.cfg.LocalMobsUiSettings.Duplicates;
-            if (ImGui.Checkbox("Duplicates##localmobsui", ref showDuplicates))
+        if (ImGui.Checkbox("重複項目##localmobsui", ref showDuplicates))
             {
                 configInterface.cfg.LocalMobsUiSettings.Duplicates = showDuplicates;
                 configInterface.Save();
             }
 
             ImGui.SameLine();
-            UiHelpers.LabeledHelpMarker("", "Duplicates are mobs with the same dataId");
+        UiHelpers.LabeledHelpMarker("", "重複項目是具有相同 DataId 的目標。");
 
             ImGui.SameLine();
             var showNpcs = configInterface.cfg.LocalMobsUiSettings.ShowNpcs;
-            if (ImGui.Checkbox("NPCs##localmobsui", ref showNpcs))
+        if (ImGui.Checkbox("NPC##localmobsui", ref showNpcs))
             {
                 configInterface.cfg.LocalMobsUiSettings.ShowNpcs = showNpcs;
                 configInterface.Save();
@@ -295,14 +295,14 @@ public class LocalMobsUi : IDisposable
                     | ImGuiTableFlags.Sortable
             );
             //TODO: Sortable
-            ImGui.TableSetupColumn("Kind");
-            ImGui.TableSetupColumn("Name");
+        ImGui.TableSetupColumn("類型");
+        ImGui.TableSetupColumn("名稱");
             ImGui.TableSetupColumn("DataId");
-            ImGui.TableSetupColumn("Configuration", ImGuiTableColumnFlags.NoSort);
-            ImGui.TableSetupColumn("Custom");
-            ImGui.TableSetupColumn("Enabled");
-            ImGui.TableSetupColumn("Custom Color", ImGuiTableColumnFlags.NoSort);
-            ImGui.TableSetupColumn("Details", ImGuiTableColumnFlags.NoSort);
+        ImGui.TableSetupColumn("設定", ImGuiTableColumnFlags.NoSort);
+        ImGui.TableSetupColumn("自訂");
+        ImGui.TableSetupColumn("啟用");
+        ImGui.TableSetupColumn("自訂顏色", ImGuiTableColumnFlags.NoSort);
+        ImGui.TableSetupColumn("詳細資訊", ImGuiTableColumnFlags.NoSort);
             ImGui.TableHeadersRow();
             var areaObjects = GetCurrentMobListSorted();
             var selfObfuscated = clientState.LocalPlayer?.GetAccountId() ?? 0;
@@ -335,7 +335,7 @@ public class LocalMobsUi : IDisposable
 
                 //Settings
                 ImGui.TableNextColumn();
-                if (ImGui.Button($"Default##{x.Address}"))
+            if (ImGui.Button($"預設##{x.Address}"))
                 {
                     var mobType = x.GetMobType();
                     typeConfigurator.OpenUiWithType(
@@ -362,7 +362,7 @@ public class LocalMobsUi : IDisposable
                 if (isUsingCustomEspOption)
                 {
                     ImGui.SameLine();
-                    if (ImGui.Button($"Edit##{x.Address}"))
+            if (ImGui.Button($"編輯##{x.Address}"))
                     {
                         var mobType = x.GetMobType();
                         typeConfigurator.OpenUiWithType(
@@ -386,7 +386,7 @@ public class LocalMobsUi : IDisposable
                 }
                 else
                 {
-                    UiHelpers.LabeledHelpMarker("X", "Must Enable Custom Settings First");
+                UiHelpers.LabeledHelpMarker("X", "必須先啟用自訂設定");
                 }
 
                 // Quick Color
@@ -409,11 +409,11 @@ public class LocalMobsUi : IDisposable
                 }
                 else
                 {
-                    UiHelpers.LabeledHelpMarker("X", "Must Enable Custom Settings First");
+                UiHelpers.LabeledHelpMarker("X", "必須先啟用自訂設定");
                 }
 
                 ImGui.TableNextColumn();
-                if (ImGui.Button($"Show##{x.Address}"))
+            if (ImGui.Button($"顯示##{x.Address}"))
                 {
                     mobEditUi.Show(x);
                 }
